@@ -1,0 +1,6 @@
+version: 5
+defaults:
+  datadir: data
+hierarchy:
+  - name: "sysctl_config"
+    path: "easy_sysctl.yaml"

@@ -1,0 +1,7 @@
+# Official Puppetlabs Modules
+mod 'puppetlabs/firewall', '2.4.0'
+
+# Unofficial Puppet Modules
+mod 'puppet/dhcp', '4.0.0'
+mod 'theforeman/dns', '8.0.0'
+mod 'qtechnologies/easy_sysctl', '1.0.2'
