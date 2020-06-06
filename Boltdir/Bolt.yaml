@@ -1,0 +1,5 @@
+---
+plugin_hooks:
+  puppet_library:
+    plugin: puppet_agent
+    _run_as: root
