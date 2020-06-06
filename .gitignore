@@ -1,6 +1,7 @@
 # Bolt Ignores
 Boltdir/modules
 Boltdir/.resource_types
+.rerun.json
 
 # Make sure you never submit keys by accident.
 *.pkcs7
