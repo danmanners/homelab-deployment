@@ -6,6 +6,13 @@ groups:
       ssh:
         user: root
         private-key: ~/.ssh/id_rsa
+  - name: unifi
+    targets:
+      - unifi.danmanners.io
+    config:
+      ssh:
+        user: ubuntu
+        private-key: ~/.ssh/id_rsa
   - name: applications
     groups:
       - name: bitbucket
@@ -21,5 +28,9 @@ groups:
           - 10.99.0.23
     config:
       ssh:
+        user: centos
         host-key-check: false
         proxyjump: bastion
+config:
+  ssh:
+    host-key-check: false
