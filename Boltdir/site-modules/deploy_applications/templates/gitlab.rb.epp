@@ -1,9 +1,10 @@
 # External URL
 external_url 'http://<%= $gitlab_url %>'
 
-# Let's Encrypt Public Facing Certificate
-# letsencrypt['enable'] = true
-# letsencrypt['contact_emails'] = ["<%= $gitlab_le_contact_email %>"]
-# letsencrypt['auto_renew'] = true
-# letsencrypt['auto_renew_hour'] = 0
-# letsencrypt['auto_renew_day_of_month'] = "*/4"
+# Gitlab Rails Configuration
+gitlab_rails['gitlab_shell_ssh_port'] = '<%= $gitlab_ssh_port %>'
+
+# Gitlab Registry Configuration
+registry_external_url 'https://<%= $gitlab_url %>:<%= $gitlab_registry_url %>'
+registry_nginx['ssl_certificate'] = "/path/to/certificate.pem"
+registry_nginx['ssl_certificate_key'] = "/path/to/certificate.key"

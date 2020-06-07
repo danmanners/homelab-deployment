@@ -12,6 +12,7 @@ mod 'puppetlabs/facts', '0.6.0'
 # Unofficial Puppet Modules
 mod 'qtechnologies/easy_sysctl', '1.0.2'
 mod 'puppet/nginx', '1.1.0'
+mod 'puppet/letsencrypt', '5.0.0'
 
 # Required Unofficial Modules
 mod 'herculesteam/augeasproviders_sysctl', '2.5.0'

@@ -8,9 +8,6 @@ plan deploy_applications::gitlab_ce (
 
   apply('gitlab', _run_as => root) {
 
-    $gitlab_external_url = lookup('gitlab::gitlab_external_url')
-    $gitlab_le_contact_email = lookup('gitlab::gitlab_le_contact_email')
-
     # Install the prerequesite packages.
     $packages = [
       'curl',
@@ -34,11 +31,6 @@ plan deploy_applications::gitlab_ce (
     file {'/etc/apt/sources.list.d/gitlab_gitlab-ce.list':
       source => "https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/config_file.list?os=${os['distro']['id']}&dist=${os['distro']['codename']}",
     }
-
-    # Create the proper environment variable to configure gitlab.
-    file { '/etc/profile.d/env.sh':
-      content => "export EXTERNAL_URL='${gitlab_external_url}'"
-    }
   }
 
   # Run 'apt update'
@@ -48,6 +40,13 @@ plan deploy_applications::gitlab_ce (
 
   # Install and configure Gitlab.
   apply('gitlab', _run_as => root) {
+
+    # Set some variables.
+    $gitlab_ssh_port = lookup('gitlab::gitlab_ssh_port')
+    $gitlab_ssh_port = lookup('gitlab::gitlab_registry_port')
+    $gitlab_external_url = lookup('gitlab::gitlab_external_url')
+    $gitlab_le_contact_email = lookup('common::primay_email_contact')
+
     package {'gitlab-ce':
       ensure => true,
       before => File['/etc/gitlab/gitlab.rb'],
