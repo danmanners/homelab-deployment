@@ -9,7 +9,7 @@ mod 'puppetlabs/inifile', '4.2.0'
 mod 'puppetlabs/facts', '0.6.0'
 
 # Unofficial Puppet Modules
-mod 'puppet/dhcp', '4.0.0'
+# mod 'puppet/dhcp', '4.0.0'
 mod 'theforeman/dns', '8.0.0'
 mod 'qtechnologies/easy_sysctl', '1.0.2'
 

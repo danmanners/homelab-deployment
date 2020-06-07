@@ -2,19 +2,14 @@ groups:
   - name: bastion
     targets:
       - pmxrouter.danmanners.io
-    config:
-      ssh:
-        user: root
-        private-key: ~/.ssh/id_rsa
   - name: unifi
     targets:
       - unifi.danmanners.io
-    config:
-      ssh:
-        user: ubuntu
-        private-key: ~/.ssh/id_rsa
   - name: applications
     groups:
+      - name: dhcpd
+        targets:
+          - 10.99.0.2
       - name: bitbucket
         targets:
           - 10.99.0.11
@@ -26,11 +21,18 @@ groups:
           - 10.99.0.21
           - 10.99.0.22
           - 10.99.0.23
+      - name: docker
+        targets:
+          - 10.99.0.31
+          # - 10.99.0.32
+          # - 10.99.0.33
+          # - 10.99.0.34
     config:
       ssh:
-        user: centos
-        host-key-check: false
-        proxyjump: bastion
+        user: ubuntu
+        proxyjump: ubuntu@pmxrouter.danmanners.io
 config:
   ssh:
+    user: ubuntu
     host-key-check: false
+    private-key: ~/.ssh/id_rsa
