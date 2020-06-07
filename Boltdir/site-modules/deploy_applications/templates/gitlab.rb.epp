@@ -1,0 +1,9 @@
+# External URL
+external_url 'http://<%= $gitlab_url %>'
+
+# Let's Encrypt Public Facing Certificate
+# letsencrypt['enable'] = true
+# letsencrypt['contact_emails'] = ["<%= $gitlab_le_contact_email %>"]
+# letsencrypt['auto_renew'] = true
+# letsencrypt['auto_renew_hour'] = 0
+# letsencrypt['auto_renew_day_of_month'] = "*/4"

@@ -5,3 +5,5 @@ defaults:
 hierarchy:
   - name: "sysctl_config"
     path: "easy_sysctl.yaml"
+  - name: "gitlab"
+    path: "gitlab.yaml"

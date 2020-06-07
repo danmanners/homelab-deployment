@@ -1,0 +1,3 @@
+---
+gitlab::gitlab_external_url: "gitlab.goodmannershosting.com"
+gitlab::gitlab_le_contact_email: "daniel.a.manners@gmail.com"

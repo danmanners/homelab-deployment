@@ -1,39 +1,62 @@
 groups:
+# Bastion Host
   - name: bastion
     targets:
       - pmxrouter.danmanners.io
-  - name: unifi
-    targets:
-      - unifi.danmanners.io
     config:
       ssh:
         user: ubuntu
-  - name: applications
-    groups:
-      - name: dhcpd
-        targets:
-          - 10.99.0.2
-      - name: bitbucket
-        targets:
-          - 10.99.0.11
-      - name: k8s-primary
-        targets:
-          - 10.99.0.20
-      - name: k8s-nodes
-        targets:
-          - 10.99.0.21
-          - 10.99.0.22
-          - 10.99.0.23
-      - name: docker
-        targets:
-          - 10.99.0.31
-          - 10.99.0.32      
-          - 10.99.0.33
-          - 10.99.0.34
+
+# Unifi Controller
+  - name: unifi
+    targets:
+      - unifi.danmanners.io
+
+# Applications & Services
+  - name: gitlab
+    targets:
+      - 10.99.0.25
     config:
       ssh:
         user: ubuntu
         proxyjump: ubuntu@pmxrouter.danmanners.io
+
+  - name: bitbucket
+    targets: 10.99.0.15
+    config:
+      ssh:
+        user: ubuntu
+        proxyjump: ubuntu@pmxrouter.danmanners.io
+
+  - name: k8s-primary
+    targets: 10.99.0.20
+    config:
+      ssh:
+        user: ubuntu
+        proxyjump: ubuntu@pmxrouter.danmanners.io
+
+  - name: k8s-nodes
+    targets:
+      - 10.99.0.21
+      - 10.99.0.22
+      - 10.99.0.23
+    config:
+      ssh:
+        user: ubuntu
+        proxyjump: ubuntu@pmxrouter.danmanners.io
+
+  - name: docker
+    targets:
+      - 10.99.0.31
+      - 10.99.0.32      
+      - 10.99.0.33
+      - 10.99.0.34
+    config:
+      ssh:
+        user: ubuntu
+        proxyjump: ubuntu@pmxrouter.danmanners.io
+
+# General Config
 config:
   ssh:
     user: ubuntu
