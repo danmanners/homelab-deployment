@@ -1,7 +1,7 @@
 # This plan will Install Docker on all of the docker hosts.
 # The plan depends on the router/reverse proxy being configured.
 plan deploy_applications::docker_install() {
-  
+
   # Prep the server
   apply_prep('docker')
 

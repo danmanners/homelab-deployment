@@ -9,9 +9,8 @@ mod 'puppetlabs/inifile', '4.2.0'
 mod 'puppetlabs/facts', '0.6.0'
 
 # Unofficial Puppet Modules
-# mod 'puppet/dhcp', '4.0.0'
-mod 'theforeman/dns', '8.0.0'
 mod 'qtechnologies/easy_sysctl', '1.0.2'
+mod 'puppet/nginx', '1.1.0'
 
 # Required Unofficial Modules
 mod 'herculesteam/augeasproviders_sysctl', '2.5.0'

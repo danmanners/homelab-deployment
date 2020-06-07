@@ -1,7 +1,6 @@
 # This plan will configure the Proxmox Router.
-# This is the ONLY host that will not be a GenericCloud Cent7 Image.
 plan deploy_router::router_config() {
-  # Prep the server
+  # Prep the server.
   apply_prep('bastion')
 
   # Install Qemu-Guest-Agent and ensure the service is enabled and started.
@@ -29,6 +28,7 @@ plan deploy_router::router_config() {
     }
   }
 
+  # Set up the router for masquerading traffic.
   apply('bastion', _run_as => root) {
     include deploy_router::iptables_settings
   }
