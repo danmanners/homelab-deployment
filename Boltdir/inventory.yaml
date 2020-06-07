@@ -5,6 +5,9 @@ groups:
   - name: unifi
     targets:
       - unifi.danmanners.io
+    config:
+      ssh:
+        user: ubuntu
   - name: applications
     groups:
       - name: dhcpd
@@ -24,9 +27,9 @@ groups:
       - name: docker
         targets:
           - 10.99.0.31
-          # - 10.99.0.32
-          # - 10.99.0.33
-          # - 10.99.0.34
+          - 10.99.0.32      
+          - 10.99.0.33
+          - 10.99.0.34
     config:
       ssh:
         user: ubuntu
