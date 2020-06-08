@@ -83,7 +83,8 @@ While you can absolutely create your own [Cloud-Init](https://cloudinit.readthed
   - [Installation Instructions can be found here](https://pve.proxmox.com/wiki/Cloud-Init_Support#_preparing_cloud_init_templates)
 
 The reason I recommend using these images is that you can simply:
-0. Add your ssh-keys to the template
+
+1. Add your ssh-keys to the Cloud-Init template image
 0. Set your default network settings
 0. Clone the image
 0. Expand the volume
