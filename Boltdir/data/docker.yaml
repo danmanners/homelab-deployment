@@ -1,0 +1,14 @@
+---
+docker::registry_url: gitlab.goodmannershosting.com
+docker::registry_user: root
+docker::registry_pass: >
+  ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQ
+  IBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAV3pRN52i9yFV+7RopI
+  3SIsFvOP/TuKlF6MTxHjZ9tDU6F1BtK1FKOx4UOxjyQxYJZWxCnpirpd
+  0gLZVVzK/kd6QOWX5NG0kR675feFNaEN58B1IT8BwkVWJUhjtd9LuYWO
+  nBY+2tnIJTt8w3EbgAZva/RCeJHheSCWh/sWJvmGdbFH6atw8jEIi5vp
+  YvEQhTX30i5S3cAYsgoqiiALbWO7TElD6BeraGnpLc0BKM02rmMS8J/w
+  CmHYvDiLbUWGwERhWTQoghZo3ntuvkb7aZ/0zhMdsdLtk6wwZOhMNsAm
+  6/ITatKO4TX+PmhXyZMp1PUevN2bnzkwFqj2jfySPAdTBMBgkqhkiG9w
+  0BBwEwHQYJYIZIAWUDBAEqBBC2RxYEZjapVJRgcq9XMJ3PgCCRk3guMB
+  /eZVW1kiMt0/szTuHejks1fwhtEV1Hj7e5Mg==]

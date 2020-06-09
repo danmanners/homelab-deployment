@@ -1,6 +1,7 @@
 # Official Puppetlabs Modules
 mod 'puppetlabs/firewall', '2.4.0'
 mod 'puppetlabs/apt', '7.4.2'
+mod 'puppetlabs/docker', '3.10.1'
 
 # Required Official Puppetlabs Modules/Libraries
 mod 'puppetlabs/concat', '6.2.0'

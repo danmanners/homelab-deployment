@@ -5,18 +5,16 @@ plan deploy_applications::docker_install() {
   # Prep the server
   apply_prep('docker')
 
-  # Install Docker
-  apply('docker', _run_as => root) {
-    package {'docker.io':
-      ensure => true,
-    }
-  }
-
   # Confirm that Docker will always start and keep running.
   apply('docker', _run_as => root) {
-    service {'docker':
-      ensure => true,
-      enable => true,
-    }
+
+    # Set the required variables.
+    $reg_private_url  = lookup('docker::registry_url')
+    $reg_port         = lookup('gitlab::gitlab_registry_port')
+    $reg_username     = lookup('docker::registry_user')
+    $reg_password     = lookup('docker::registry_pass')
+
+    include deploy_applications::docker_login
+
   }
 }
