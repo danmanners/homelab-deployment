@@ -42,10 +42,10 @@ plan deploy_applications::gitlab_ce (
   apply('gitlab', _run_as => root) {
 
     # Set some variables.
-    $gitlab_ssh_port = lookup('gitlab::gitlab_ssh_port')
-    $gitlab_ssh_port = lookup('gitlab::gitlab_registry_port')
-    $gitlab_external_url = lookup('gitlab::gitlab_external_url')
-    $gitlab_le_contact_email = lookup('common::primay_email_contact')
+    $gitlab_le_contact_email  = lookup('common::primay_email_contact')
+    $gitlab_external_url      = lookup('gitlab::gitlab_external_url')
+    $gitlab_registry_port     = lookup('gitlab::gitlab_registry_port')
+    $gitlab_ssh_port          = lookup('gitlab::gitlab_ssh_port')
 
     package {'gitlab-ce':
       ensure => true,
@@ -54,6 +54,14 @@ plan deploy_applications::gitlab_ce (
 
     file {'/etc/gitlab/gitlab.rb':
       content => epp('deploy_applications/gitlab.rb.epp'),
+    }
+
+    file {"/etc/gitlab/ssl/${gitlab_external_url}.crt":
+      source => "http://10.99.0.1/${gitlab_external_url}/fullchain.pem",
+    }
+
+    file {"/etc/gitlab/ssl/${gitlab_external_url}.key":
+      source => "http://10.99.0.1/${gitlab_external_url}/privkey.pem",
     }
 
     exec {'gitlab reconfigure':

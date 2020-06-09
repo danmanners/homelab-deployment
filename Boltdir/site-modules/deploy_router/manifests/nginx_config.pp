@@ -13,7 +13,7 @@ class deploy_router::nginx_config {
     ssl         => true,
     ssl_cert    => "/etc/letsencrypt/live/${::gitlab_external_url}/fullchain.pem",
     ssl_key     => "/etc/letsencrypt/live/${::gitlab_external_url}/privkey.pem",
-    proxy       => 'http://10.99.0.25',
+    proxy       => 'https://10.99.0.25',
   }
 
   nginx::resource::upstream {'gitlab_ssh_upstream':
@@ -51,4 +51,11 @@ class deploy_router::nginx_config {
     listen_port => $::gitlab_registry_port,
     proxy       => 'gitlab_registry_upstream'
   }
+
+  # Serve the NGINX directory for LetsEncrypt certs
+  nginx::resource::server { '10.99.0.1':
+    www_root  => '/opt/certs',
+    listen_ip => '10.99.0.1',
+  }
+
 }

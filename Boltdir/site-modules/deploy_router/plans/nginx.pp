@@ -6,6 +6,10 @@ plan deploy_router::nginx () {
 
   # Install NGINX.
   apply('bastion', _run_as => root) {
+    package { 'certbot' :
+      ensure => true,
+    }
+
     include nginx
   }
 
@@ -18,8 +22,14 @@ plan deploy_router::nginx () {
     $gitlab_ssh_port      = lookup('gitlab::gitlab_ssh_port')
 
     # Makes sure to remove the default.conf file.
-    file {'/etc/nginx/conf.d/default.conf':
+    file { '/etc/nginx/conf.d/default.conf':
       ensure => absent,
+    }
+
+    file {'/opt/certs':
+      ensure => directory,
+      owner  => 'www-data',
+      group  => 'www-data',
     }
 
     # Configure NGINX.
@@ -32,16 +42,19 @@ plan deploy_router::nginx () {
     # Define the relevant variables.
     $gitlab_external_url  = lookup('gitlab::gitlab_external_url')
 
-    package {'certbot':
-      ensure => true,
+    exec { 'register or renew LE Cert' :
+      command => "/usr/bin/certbot certonly --standalone --preferred-challenges \
+                  http -d ${gitlab_external_url} -n",
     }
 
-    exec { 'register new LE Cert' :
-      command => "/usr/bin/certbot certonly \
-                    --standalone --preferred-challenges \
-                    http -d ${gitlab_external_url} -n",
-      require => Package['certbot'],
+    exec { "${gitlab_external_url}_cert_setup":
+      command => "/bin/mkdir -p /opt/certs/${gitlab_external_url} && \
+                    cp /etc/letsencrypt/live/${gitlab_external_url}/* /opt/certs/${gitlab_external_url} && \
+                    chown -R www-data:www-data /opt/certs/${gitlab_external_url} && \
+                    chmod 0400 /opt/certs/${gitlab_external_url}/*",
+      require => Exec['register or renew LE Cert'],
     }
+
   }
 
   # TODO: Get this all working, but right now it doesn't function. Unknown why.

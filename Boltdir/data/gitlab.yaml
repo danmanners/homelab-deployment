@@ -1,5 +1,5 @@
 ---
 gitlab::gitlab_le_contact_email: "daniel.a.manners@gmail.com"
 gitlab::gitlab_external_url: "gitlab.goodmannershosting.com"
-gitlab::gitlab_registry_port: 5000
+gitlab::gitlab_registry_port: 5050
 gitlab::gitlab_ssh_port: 2222

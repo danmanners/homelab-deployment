@@ -1,10 +1,12 @@
 # External URL
-external_url 'http://<%= $gitlab_url %>'
+external_url 'https://<%= $gitlab_url %>'
+nginx['ssl_certificate'] = "/etc/gitlab/ssl/<%= $gitlab_external_url %>.crt"
+nginx['ssl_certificate_key'] = "/etc/gitlab/ssl/<%= $gitlab_external_url %>.key"
 
 # Gitlab Rails Configuration
 gitlab_rails['gitlab_shell_ssh_port'] = '<%= $gitlab_ssh_port %>'
 
 # Gitlab Registry Configuration
-registry_external_url 'https://<%= $gitlab_url %>:<%= $gitlab_registry_url %>'
-registry_nginx['ssl_certificate'] = "/path/to/certificate.pem"
-registry_nginx['ssl_certificate_key'] = "/path/to/certificate.key"
+registry_external_url 'https://<%= $gitlab_external_url %>:<%= $gitlab_registry_port %>'
+registry_nginx['ssl_certificate'] = "/etc/gitlab/ssl/<%= $gitlab_external_url %>.crt"
+registry_nginx['ssl_certificate_key'] = "/etc/gitlab/ssl/<%= $gitlab_external_url %>.key"

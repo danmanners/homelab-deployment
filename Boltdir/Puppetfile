@@ -1,18 +1,19 @@
 # Official Puppetlabs Modules
 mod 'puppetlabs/firewall', '2.4.0'
+mod 'puppetlabs/apt', '7.4.2'
+
+# Required Official Puppetlabs Modules/Libraries
 mod 'puppetlabs/concat', '6.2.0'
 mod 'puppetlabs/translate', '2.2.0'
 mod 'puppetlabs/stdlib', '5.2.0'
-mod 'puppetlabs/apt', '7.4.2'
-mod 'puppetlabs/yumrepo_core', '1.0.7'
 mod 'puppetlabs/puppet_agent', '3.2.0'
 mod 'puppetlabs/inifile', '4.2.0'
 mod 'puppetlabs/facts', '0.6.0'
+mod 'puppetlabs/yumrepo_core', '1.0.7'
 
 # Unofficial Puppet Modules
 mod 'qtechnologies/easy_sysctl', '1.0.2'
 mod 'puppet/nginx', '1.1.0'
-mod 'puppet/letsencrypt', '5.0.0'
 
 # Required Unofficial Modules
 mod 'herculesteam/augeasproviders_sysctl', '2.5.0'
