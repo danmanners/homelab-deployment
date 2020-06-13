@@ -1,5 +1,5 @@
 OS=Ubuntu
-VERSION=1.18.0
+VERSION=1.17.6
 CONTAINER_RUNTIME=docker
 CNI_PROVIDER=weave
 ETCD_INITIAL_CLUSTER=k8s-primary:10.99.0.20,k8s-worker1:10.99.0.21,k8s-worker2:10.99.0.22,k8s-worker3:10.99.0.23
