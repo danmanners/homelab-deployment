@@ -1,3 +1,4 @@
+---
 version: 5
 defaults:
   datadir: data
@@ -18,3 +19,15 @@ hierarchy:
 
   - name: "sysctl_config"
     path: "easy_sysctl.yaml"
+
+# Kubernetes
+  - name: "k8s_setup"
+    path: "k8s/Ubuntu.yaml"
+  - name: "k8s_primary"
+    path: "k8s/k8s-primary.yaml"
+  - name: "k8s_worker1"
+    path: "k8s/k8s-worker1.yaml"
+  - name: "k8s_worker2"
+    path: "k8s/k8s-worker2.yaml"
+  - name: "k8s_worker3"
+    path: "k8s/k8s-worker3.yaml"

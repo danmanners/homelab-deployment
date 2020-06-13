@@ -1,0 +1,8 @@
+OS=Ubuntu
+VERSION=1.18.0
+CONTAINER_RUNTIME=docker
+CNI_PROVIDER=weave
+ETCD_INITIAL_CLUSTER=k8s-primary:10.99.0.20,k8s-worker1:10.99.0.21,k8s-worker2:10.99.0.22,k8s-worker3:10.99.0.23
+ETCD_IP=%{::ipaddress_eth1}
+KUBE_API_ADVERTISE_ADDRESS=%{::ipaddress_eth1}
+INSTALL_DASHBOARD=true

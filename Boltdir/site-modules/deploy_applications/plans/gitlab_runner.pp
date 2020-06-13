@@ -5,7 +5,7 @@ plan deploy_applications::gitlab_runner () {
     $runner_token = lookup('gitlab::runner_token')
     $gitlab_external_url = lookup('gitlab::gitlab_external_url')
 
-    deploy_applications::gitlab_runner_config {"${::facts['networking']['hostname']}":
+    deploy_applications::gitlab_runner_config {$::facts['networking']['hostname']:
       runner_token    => $runner_token,
       register_status => 'register',
       install         => true,

@@ -3,10 +3,10 @@
 plan deploy_applications::docker_install() {
 
   # Prep the server
-  apply_prep('docker')
+  apply_prep(['docker','k8s-primary','k8s-nodes'])
 
   # Confirm that Docker will always start and keep running.
-  apply('docker', _run_as => root) {
+  apply(['docker','k8s-primary','k8s-nodes'], _run_as => root) {
 
     # Set the required variables.
     $reg_private_url  = lookup('docker::registry_url')

@@ -11,6 +11,9 @@ Boltdir/.resource_types
 *.pem
 *.key
 
+# Terraform Files
+.terraform
+
 # Make sure not to accidentally push any packages.
 *.deb
 *.pkg

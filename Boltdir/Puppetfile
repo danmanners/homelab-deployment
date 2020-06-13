@@ -2,6 +2,7 @@
 mod 'puppetlabs/firewall', '2.4.0'
 mod 'puppetlabs/apt', '7.4.2'
 mod 'puppetlabs/docker', '3.10.1'
+mod 'puppetlabs/kubernetes', '5.1.0'
 
 # Required Official Puppetlabs Modules/Libraries
 mod 'puppetlabs/concat', '6.2.0'
@@ -15,7 +16,9 @@ mod 'puppetlabs/yumrepo_core', '1.0.7'
 # Unofficial Puppet Modules
 mod 'qtechnologies/easy_sysctl', '1.0.2'
 mod 'puppet/nginx', '1.1.0'
+mod 'puppet/archive', '4.5.0'
 
 # Required Unofficial Modules
 mod 'herculesteam/augeasproviders_sysctl', '2.5.0'
 mod 'herculesteam/augeasproviders_core', '2.6.0'
+mod 'camptocamp/kmod', '2.5.0'
