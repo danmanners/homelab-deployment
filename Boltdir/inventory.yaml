@@ -13,6 +13,14 @@ groups:
       - unifi.danmanners.io
 
 # Applications & Services
+  - name: dns
+    targets:
+      - 10.99.0.2
+    config:
+      ssh:
+        user: ubuntu
+        proxyjump: ubuntu@pmxrouter.danmanners.io
+
   - name: gitlab
     targets:
       - 10.99.0.25

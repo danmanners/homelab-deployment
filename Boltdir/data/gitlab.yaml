@@ -3,3 +3,14 @@ gitlab::gitlab_le_contact_email: "daniel.a.manners@gmail.com"
 gitlab::gitlab_external_url: "gitlab.goodmannershosting.com"
 gitlab::gitlab_registry_port: 5050
 gitlab::gitlab_ssh_port: 2222
+gitlab::runner_token: >
+  ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQ
+  IBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEA6AJB+k6Bro3WKgcYzY
+  foNb1uF6ReiFjegh4K36LkkQX+2sj8BUHXDjNgGVscL4UkrQV6nqQyW3
+  +Sy7e+gK14AKQ0Iiwotx5QRbwo3TxHsRhY8Ewvd1leh9mF6f9kdVszWo
+  9cHw++9+gc698mEOOm3FMGjJ1KjHfyJBXkY1g+3ExPc10xKm/ruFpih9
+  M/C7z6FxRNCR+rIGvGhBdX6XztsUQ5e/jJtxWiL3S9bfjQpCDVg+/HMM
+  ZvKiCxxlBqCjmlhmWQuHpsjp2BJZANj/UiajlzCUeseyNOPK1wrLf1iv
+  iUXpcSezKiSBFtRyilrJTmKm6ZCy9PF/LwvsvXxmbWVTBMBgkqhkiG9w
+  0BBwEwHQYJYIZIAWUDBAEqBBBXNtyvwQai/v/k+jOLYh8HgCCnAtqnl8
+  ZGdfk4cY6OinnOP5zntpRhvUlJ0s4OOqMIHA==]
