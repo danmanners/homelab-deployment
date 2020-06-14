@@ -80,4 +80,15 @@ class deploy_router::nginx_config {
     listen_ip => '10.99.0.1',
   }
 
+### EVERYTHING BELOW THIS LINE SHOULD BE FOR APPLICATIONS ONLY.
+### THIS WILL BE BROKEN OUT INTO SEPARATE FILES LATER.
+# Reverse HTTPS Proxy for Testing MetalLB with an NGINX container.
+  nginx::resource::server { 'nginx_metallb_testing' :
+    ensure      => present,
+    server_name => [
+      $::gitlab_external_url,
+    ],
+    listen_port => 8080,
+    proxy       => 'http://10.99.0.150',
+  }
 }

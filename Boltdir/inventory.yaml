@@ -1,6 +1,7 @@
 groups:
 # Bastion Host
   - name: bastion
+    alias: router
     targets:
       - pmxrouter.danmanners.io
 
@@ -15,9 +16,6 @@ groups:
       - name: gitlab
         targets:
           - 10.99.0.25
-
-      # - name: bitbucket
-      #   targets: 10.99.0.15
 
       - name: k8s-primary
         targets: 
