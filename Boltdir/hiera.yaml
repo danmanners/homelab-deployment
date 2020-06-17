@@ -20,6 +20,9 @@ hierarchy:
   - name: "sysctl_config"
     path: "easy_sysctl.yaml"
 
+  - name: "cron"
+    path: "cron.yaml"
+
 # Kubernetes
   - name: "k8s_setup"
     path: "k8s/Ubuntu.yaml"
