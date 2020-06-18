@@ -13,6 +13,10 @@ groups:
 # Applications & Services
   - name: application_servers
     groups:
+      - name: nfs
+        targets:
+          - 10.99.0.5
+
       - name: gitlab
         targets:
           - 10.99.0.25

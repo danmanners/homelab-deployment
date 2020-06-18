@@ -4,6 +4,7 @@ mod 'puppetlabs/apt', '7.4.2'
 mod 'puppetlabs/docker', '3.10.1'
 mod 'puppetlabs/kubernetes', '5.1.0'
 mod 'puppetlabs/cron_core', '1.0.4'
+mod 'puppetlabs/mount_core', '1.0.4'
 
 # Required Official Puppetlabs Modules/Libraries
 mod 'puppetlabs/concat', '6.2.0'
