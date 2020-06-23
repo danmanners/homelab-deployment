@@ -1,0 +1,7 @@
+{
+  "recommendations": [
+    "brandontosch.hiera-eyaml",
+    "puppet.puppet-vscode",
+    "redhat.vscode-yaml"
+  ]
+}

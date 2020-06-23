@@ -3,5 +3,16 @@
     "eyamlPath": "/usr/bin/eyaml",
     "publicKeyPath": "/opt/deploykeys/public_key.pkcs7.pem",
     "privateKeyPath": "/opt/deploykeys/private_key.pkcs7.pem"
+  },
+  "yaml.schemas": {
+    "https://forgeapi.puppet.com/schemas/bolt-project.json": [
+      "bolt-project.yaml"
+    ],
+    "https://forgeapi.puppet.com/schemas/bolt-config.json": [
+      "bolt.yaml"
+    ],
+    "https://forgeapi.puppet.com/schemas/bolt-inventory.json": [
+      "inventory.yaml"
+    ]
   }
 }
