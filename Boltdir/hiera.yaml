@@ -17,6 +17,9 @@ hierarchy:
   - name: "gitlab"
     path: "gitlab.yaml"
 
+  - name: "jenkins"
+    path: "jenkins.yaml"
+
   - name: "sysctl_config"
     path: "easy_sysctl.yaml"
 

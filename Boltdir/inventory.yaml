@@ -1,4 +1,12 @@
 groups:
+# Hypervisor Host
+  - name: proxmox
+    targets:
+      - pmx.danmanners.io
+    config:
+      ssh:
+        user: root
+
 # Bastion Host
   - name: bastion
     alias: router

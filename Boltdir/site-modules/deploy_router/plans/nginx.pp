@@ -6,7 +6,9 @@ plan deploy_router::nginx () {
 
   # Install NGINX.
   apply('bastion', _run_as => root) {
-    package { 'certbot' :
+
+    $packages = ['certbot','python-certbot-nginx']
+    package { $packages :
       ensure => true,
     }
 
@@ -17,6 +19,7 @@ plan deploy_router::nginx () {
   apply('bastion', _run_as => root) {
 
     # Define the relevant variables.
+    $jenkins_external_url = lookup('jenkins::jenkins_external_url')
     $gitlab_external_url  = lookup('gitlab::gitlab_external_url')
     $gitlab_registry_port = lookup('gitlab::gitlab_registry_port')
     $gitlab_ssh_port      = lookup('gitlab::gitlab_ssh_port')
@@ -41,20 +44,31 @@ plan deploy_router::nginx () {
 
     # Define the relevant variables.
     $gitlab_external_url  = lookup('gitlab::gitlab_external_url')
+    $jenkins_external_url = lookup('jenkins::jenkins_external_url')
 
-    exec { 'register or renew LE Cert' :
-      command => "/usr/bin/certbot certonly --standalone --preferred-challenges \
-                  http -d ${gitlab_external_url} -n",
+    # Registers or renews the LetsEncrypt cert
+    exec { 'certwork' :
+      command => "/usr/bin/certbot certonly --standalone \
+        --preferred-challenges http \
+        -d ${gitlab_external_url},${jenkins_external_url} \
+        -n --expand --http-01-address ${facts['networking']['interfaces']['eth0']['ip']}",
     }
 
+    # Performs cert magic after renewal
     exec { "${gitlab_external_url}_cert_setup":
       command => "/bin/mkdir -p /opt/certs/${gitlab_external_url} && \
                     cp /etc/letsencrypt/live/${gitlab_external_url}/* /opt/certs/${gitlab_external_url} && \
                     chown -R www-data:www-data /opt/certs/${gitlab_external_url} && \
                     chmod 0400 /opt/certs/${gitlab_external_url}/*",
-      require => Exec['register or renew LE Cert'],
+      require => Exec['certwork'],
     }
 
+    # Adds the Certbot Renew to Cron
+    cron { 'certbot renew':
+      command => 'certbot renew',
+      user    => 'root',
+      weekday => 2,
+    }
   }
 
   # TODO: Get this all working, but right now it doesn't function. Unknown why.

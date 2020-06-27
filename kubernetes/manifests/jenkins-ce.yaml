@@ -1,0 +1,78 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: jenkins-pv
+spec:
+  capacity:
+    storage: 20Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  nfs:
+    server: 10.99.0.5
+    path: "/mnt/nvmestor/jenkins"
+    readOnly: false
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: jenkins-pvc
+  labels:
+    app: jenkins-ce
+spec:
+  accessModes:
+  - ReadWriteMany
+  resources:
+     requests:
+       storage: 1Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jenkins-ce
+spec:
+  selector:
+    matchLabels:
+      run: jenkins-ce
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        run: jenkins-ce
+    spec:
+      containers:
+      - name: jenkins-ce
+        image: jenkins/jenkins:2.242-centos7
+        ports:
+        - containerPort: 8080
+          name: web
+        - containerPort: 50000
+          name: jnlp-agents
+        volumeMounts:
+        - name: jenkins-home
+          mountPath: /var/jenkins_home
+      volumes:
+      - name: jenkins-home
+        persistentVolumeClaim:
+          claimName: jenkins-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: jenkins-ce
+  labels:
+    run: jenkins-ce
+spec:
+  loadBalancerIP: 10.99.0.151
+  type: LoadBalancer
+  ports:
+  - name: web
+    port: 8080
+    protocol: TCP
+  - name: jnlp-agents
+    port: 50000
+    protocol: TCP
+  selector:
+    run: jenkins-ce
+

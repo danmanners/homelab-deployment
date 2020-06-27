@@ -36,6 +36,14 @@ class deploy_router::iptables_settings {
       action  => 'accept',
     }
 
+    firewall {'42 gitlab docker registry':
+      chain   => 'INPUT',
+      iniface => 'eth0',
+      proto   => 'tcp',
+      dport   => 6443,
+      action  => 'accept',
+    }
+
 # Make sure that all traffic is masqueraded outbound if the VM is used as a router.
     firewall {'100 Masquerade':
       table        => 'nat',

@@ -9,14 +9,8 @@ plan deploy_router::router_config() {
     # Add the Sysctl options to the remote server.
     class { 'easy_sysctl': }
 
-    # List of packages.
-    $package_list = [
-      'qemu-guest-agent',
-      'iptables-persistent'
-    ]
-
-    # Install the list of packages.
-    package {$package_list:
+    # Install iptables-persistent
+    package {'iptables-persistent':
       ensure => 'installed',
     }
 
