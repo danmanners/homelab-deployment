@@ -19,10 +19,11 @@ plan deploy_router::nginx () {
   apply('bastion', _run_as => root) {
 
     # Define the relevant variables.
-    $jenkins_external_url = lookup('jenkins::jenkins_external_url')
-    $gitlab_external_url  = lookup('gitlab::gitlab_external_url')
-    $gitlab_registry_port = lookup('gitlab::gitlab_registry_port')
-    $gitlab_ssh_port      = lookup('gitlab::gitlab_ssh_port')
+    $sonarqube_external_url = lookup('sonarqube::sonarqube_external_url')
+    $jenkins_external_url   = lookup('jenkins::jenkins_external_url')
+    $gitlab_external_url    = lookup('gitlab::gitlab_external_url')
+    $gitlab_registry_port   = lookup('gitlab::gitlab_registry_port')
+    $gitlab_ssh_port        = lookup('gitlab::gitlab_ssh_port')
 
     # Makes sure to remove the default.conf file.
     file { '/etc/nginx/conf.d/default.conf':
@@ -43,15 +44,17 @@ plan deploy_router::nginx () {
   apply('bastion', _run_as => root) {
 
     # Define the relevant variables.
-    $gitlab_external_url  = lookup('gitlab::gitlab_external_url')
-    $jenkins_external_url = lookup('jenkins::jenkins_external_url')
+    $gitlab_external_url    = lookup('gitlab::gitlab_external_url')
+    $jenkins_external_url   = lookup('jenkins::jenkins_external_url')
+    $sonarqube_external_url = lookup('sonarqube::sonarqube_external_url')
 
     # Registers or renews the LetsEncrypt cert
     exec { 'certwork' :
       command => "/usr/bin/certbot certonly --standalone \
         --preferred-challenges http \
-        -d ${gitlab_external_url},${jenkins_external_url} \
-        -n --expand --http-01-address ${facts['networking']['interfaces']['eth0']['ip']}",
+        -d ${gitlab_external_url},${jenkins_external_url},${sonarqube_external_url} \
+        --http-01-address ${facts['networking']['interfaces']['eth0']['ip']} \
+        -n --expand",
     }
 
     # Performs cert magic after renewal

@@ -20,6 +20,9 @@ hierarchy:
   - name: "jenkins"
     path: "jenkins.yaml"
 
+  - name: "sonarqube"
+    path: "sonarqube.yaml"
+
   - name: "sysctl_config"
     path: "easy_sysctl.yaml"
 

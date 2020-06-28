@@ -110,4 +110,23 @@ class deploy_router::nginx_config {
     ssl_key          => "/etc/letsencrypt/live/${::gitlab_external_url}/privkey.pem",
     proxy            => 'http://10.99.0.151:8080',
   }
+
+# Reverse HTTPS Proxy for Sonarqube on Kubernetes
+  nginx::resource::server { 'sonarqube_server' :
+    ensure           => present,
+    server_name      => [
+      $::sonarqube_external_url,
+    ],
+    proxy_set_header => [
+      'Host $host:$server_port',
+      'X-Real-IP $remote_addr',
+      'X-Forwarded-For $proxy_add_x_forwarded_for',
+      'X-Forwarded-Proto $scheme',
+    ],
+    listen_port      => 443,
+    ssl              => true,
+    ssl_cert         => "/etc/letsencrypt/live/${::gitlab_external_url}/fullchain.pem",
+    ssl_key          => "/etc/letsencrypt/live/${::gitlab_external_url}/privkey.pem",
+    proxy            => 'http://10.99.0.152:9000',
+  }
 }

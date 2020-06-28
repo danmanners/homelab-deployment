@@ -1,0 +1,76 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: postgres-pv
+spec:
+  capacity:
+    storage: 40Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  nfs:
+    server: 10.99.0.5
+    path: "/mnt/nvmestor/postgres"
+    readOnly: false
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-pvc
+  labels:
+    app: postgresql
+spec:
+  accessModes:
+  - ReadWriteMany
+  resources:
+     requests:
+       storage: 1Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgresql
+spec:
+  selector:
+    matchLabels:
+      run: postgresql
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        run: postgresql
+    spec:
+      containers:
+      - name: postgresql
+        image: postgres:11.8
+        env:
+        - name: POSTGRES_PASSWORD
+          value: "d6eb1820-1891-4d96-a298-1354115338b0"
+        ports:
+        - containerPort: 5432
+          name: psql
+        volumeMounts:
+        - name: psql-data
+          mountPath: /var/lib/postgresql/data
+      volumes:
+      - name: psql-data
+        persistentVolumeClaim:
+          claimName: postgres-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgresql
+  labels:
+    run: postgresql
+spec:
+  loadBalancerIP: 10.99.0.153
+  type: LoadBalancer
+  ports:
+  - name: web
+    port: 5432
+    protocol: TCP
+  selector:
+    run: postgresql
+

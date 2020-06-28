@@ -1,0 +1,139 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: snr-data-pv
+spec:
+  capacity:
+    storage: 30Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  nfs:
+    server: 10.99.0.5
+    path: "/mnt/nvmestor/sonarqube/data"
+    readOnly: false
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: snr-data-pvc
+  labels:
+    app: sonarqube
+spec:
+  accessModes:
+  - ReadWriteMany
+  resources:
+     requests:
+       storage: 1Gi
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: snr-logs-pv
+spec:
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  nfs:
+    server: 10.99.0.5
+    path: "/mnt/nvmestor/sonarqube/logs"
+    readOnly: false
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: snr-logs-pvc
+  labels:
+    app: sonarqube
+spec:
+  accessModes:
+  - ReadWriteMany
+  resources:
+     requests:
+       storage: 1Gi
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: snr-ext-pv
+spec:
+  capacity:
+    storage: 20Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  nfs:
+    server: 10.99.0.5
+    path: "/mnt/nvmestor/sonarqube/extensions"
+    readOnly: false
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: snr-ext-pvc
+  labels:
+    app: sonarqube
+spec:
+  accessModes:
+  - ReadWriteMany
+  resources:
+     requests:
+       storage: 1Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sonarqube
+spec:
+  selector:
+    matchLabels:
+      run: sonarqube
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        run: sonarqube
+    spec:
+      containers:
+      - name: sonarqube
+        image: sonarqube:8.3.1-community
+        ports:
+        - containerPort: 9000
+          name: web
+        volumeMounts:
+        - name: snr-data
+          mountPath: /opt/sonarqube/data
+        - name: snr-logs
+          mountPath: /opt/sonarqube/logs
+        - name: snr-ext
+          mountPath: /opt/sonarqube/extensions
+      volumes:
+      - name: snr-data
+        persistentVolumeClaim:
+          claimName: snr-data-pvc
+      - name: snr-logs
+        persistentVolumeClaim:
+          claimName: snr-logs-pvc
+      - name: snr-ext
+        persistentVolumeClaim:
+          claimName: snr-ext-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sonarqube
+  labels:
+    run: sonarqube
+spec:
+  loadBalancerIP: 10.99.0.152
+  type: LoadBalancer
+  ports:
+  - name: web
+    port: 9000
+    protocol: TCP
+  selector:
+    run: sonarqube
+
