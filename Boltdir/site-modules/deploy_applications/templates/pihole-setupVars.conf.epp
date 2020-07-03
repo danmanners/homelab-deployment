@@ -1,0 +1,19 @@
+WEBPASSWORD=<%= $webpassword %>
+PIHOLE_INTERFACE=eth0
+IPV4_ADDRESS=<%= $ipv4_addr %>
+QUERY_LOGGING=true
+INSTALL_WEB=true
+DNSMASQ_LISTENING=single
+PIHOLE_DNS_1=<%= $upstream_dns_1 %>
+<% if $upstream_dns_2 { -%>
+PIHOLE_DNS_2=<%= $upstream_dns_2 %>
+<% } -%>
+DNS_FQDN_REQUIRED=true
+DNS_BOGUS_PRIV=true
+DNSSEC=true
+TEMPERATUREUNIT=F
+WEBUIBOXEDLAYOUT=traditional
+API_EXCLUDE_DOMAINS=
+API_EXCLUDE_CLIENTS=
+API_QUERY_LOG_SHOW=all
+API_PRIVACY_MODE=false

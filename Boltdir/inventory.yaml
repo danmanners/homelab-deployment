@@ -21,6 +21,10 @@ groups:
 # Applications & Services
   - name: application_servers
     groups:
+      - name: pihole
+        targets:
+          - 10.99.0.2
+
       - name: nfs
         targets:
           - 10.99.0.5
