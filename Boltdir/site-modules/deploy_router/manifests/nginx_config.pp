@@ -1,7 +1,8 @@
 # Configures NGINX
 class deploy_router::nginx_config {
   class { 'nginx':
-    stream => true,
+    stream               => true,
+    client_max_body_size => '500M'
   }
 
 # Reverse HTTPS Proxy for Gitlab Server
