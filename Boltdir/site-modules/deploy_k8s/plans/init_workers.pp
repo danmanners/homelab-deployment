@@ -9,6 +9,19 @@ plan deploy_k8s::init_workers () {
       value   => '0',
       comment => 'Required for Kubernetes',
     }
+
+    # SonarQube and Elasticsearch Requirements
+    sysctl {'vm.max_map_count':
+      ensure  => present,
+      value   => 262144,
+      comment => 'Required for various Kubernetes services',
+    }
+    sysctl {'fs.file-max':
+      ensure  => present,
+      value   => 65536,
+      comment => 'Required for various Kubernetes services',
+    }
+
 # Use the Ubuntu Hiera file and provision the Kubernetes controller.
     class {'kubernetes':
       worker  => true,

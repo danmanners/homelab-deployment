@@ -1,0 +1,7 @@
+FROM alpine:3.12
+LABEL Maintainer="Dan Manners"
+RUN apk add --no-cache curl \
+    postgresql-client wget && \
+    mkdir -p /opt/postgres/
+COPY postgres-mgmt.sh /opt/postgres/postgres-mgmt.sh
+ENTRYPOINT [ "/opt/postgres/postgres-mgmt.sh" ]

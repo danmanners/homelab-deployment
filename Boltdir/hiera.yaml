@@ -20,6 +20,9 @@ hierarchy:
   - name: "jenkins"
     path: "jenkins.yaml"
 
+  - name: "nexus"
+    path: "nexus.yaml"
+
   - name: "sonarqube"
     path: "sonarqube.yaml"
 

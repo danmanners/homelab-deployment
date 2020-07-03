@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: nexus-docker-reg
+  namespace: default
+data:
+  .dockerconfigjson: ENC[PKCS7,MIICGwYJKoZIhvcNAQcDoIICDDCCAggCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEA7IVF9xIYJ/T+EfnCq1hDnL6g+uBZjtPAZ/iTFFMEVfqcwuSwZuHAwydNRTFT1lJVxK7JJnzDH5gfP51VQ+YeAsal994fAjHfzOWPJrpz0s3FqaAf3rTfysXhdH1Wim5yhRtRIgwrIXGVV84hmwAlOA1fALwfbv38Wwl5pwOdyUO2VPG/AfuHgnbcYls7yQCdqVoP5EQh75iUFSmOQlrd0n0AATQtsz2HhNzPqaqloXv1Njk12tDN9OmIxJEXtJg3g7cFCEYmIehFlGb+zq7sZtPLvcA/N69/BmYtF9j2L/MVivEO7BkwNgALuojoKq116eV+WXUrxWkgUJSTaR+sUTCB3QYJKoZIhvcNAQcBMB0GCWCGSAFlAwQBKgQQ5D6uWKetHkq/QczDRgsVjYCBsMV1ouLfC2nT+im8rGHEoMXSCgu91fHeN0FCnRunYnXoJZgpUHnXgJg+IKR/9wIko4f1V44ulUk2gYaxDj3qHcF720MumlOapHsF2v2t08g1B+gW1X70aJ8UMVMyPPReH6eSYoxux1k7gbHUz/ei1UcUs08x7CUxgRgYCNdkoIreqSQ3Q2jAsDrm6NWL7i8k0wn6BwsqYvhTpQB3Neq30RJF/tCUVhjxX/Oh4+joVnzr]
+  # Make sure to decrypt the line above before applying this.
+  # Otherwise, replace the string above with your own Base64 encoded ~/.docker/config.json file.
+type: kubernetes.io/dockerconfigjson

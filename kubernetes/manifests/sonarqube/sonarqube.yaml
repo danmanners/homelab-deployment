@@ -1,3 +1,55 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: sonar-psql-add
+spec:
+  backoffLimit: 4
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: sonar-postgres-add
+        image: nexus.goodmannershosting.com:5001/repository/homelab/manage_psql:latest
+        env:
+        - name: PGHOST
+          valueFrom:
+            secretKeyRef:
+              name: sonar-postgres-add
+              key: pghost
+        - name: PGDEFDB
+          valueFrom:
+            secretKeyRef:
+              name: sonar-postgres-add
+              key: pgdefdb
+        - name: PGROOTUSER
+          valueFrom:
+            secretKeyRef:
+              name: sonar-postgres-add
+              key: pgrootuser
+        - name: PGPASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgresql
+              key: pgpassword
+        - name: NEWDBNAME
+          valueFrom:
+            secretKeyRef:
+              name: sonar-postgres-add
+              key: newdbname
+        - name: NEWDBUSER
+          valueFrom:
+            secretKeyRef:
+              name: sonar-postgres-add
+              key: newdbuser
+        - name: NEWDBPASS
+          valueFrom:
+            secretKeyRef:
+              name: sonar-postgres-add
+              key: newdbpass
+      imagePullSecrets:
+      - name: nexus-docker-reg
+
+---
 apiVersion: v1
 kind: PersistentVolume
 metadata:
@@ -110,6 +162,22 @@ spec:
           mountPath: /opt/sonarqube/logs
         - name: snr-ext
           mountPath: /opt/sonarqube/extensions
+        env:
+          - name: SONARQUBE_JDBC_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: sonar-postgres-add
+                key: newdbuser
+          - name: SONARQUBE_JDBC_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: sonar-postgres-add
+                key: newdbpass
+          - name: SONARQUBE_JDBC_URL
+            valueFrom:
+              secretKeyRef:
+                name: sonar-postgres-add
+                key: jdbc-url
       volumes:
       - name: snr-data
         persistentVolumeClaim:

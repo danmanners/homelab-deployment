@@ -82,16 +82,6 @@ class deploy_router::nginx_config {
 
 ### EVERYTHING BELOW THIS LINE SHOULD BE FOR APPLICATIONS ONLY.
 ### THIS WILL BE BROKEN OUT INTO SEPARATE FILES LATER.
-# Reverse HTTPS Proxy for Testing MetalLB with an NGINX container.
-  nginx::resource::server { 'nginx_metallb_testing' :
-    ensure      => present,
-    server_name => [
-      $::gitlab_external_url,
-    ],
-    listen_port => 8080,
-    proxy       => 'http://10.99.0.150',
-  }
-
 # Reverse HTTPS Proxy for Jenkins on Kubernetes
   nginx::resource::server { 'jenkins_server' :
     ensure           => present,
@@ -128,5 +118,62 @@ class deploy_router::nginx_config {
     ssl_cert         => "/etc/letsencrypt/live/${::gitlab_external_url}/fullchain.pem",
     ssl_key          => "/etc/letsencrypt/live/${::gitlab_external_url}/privkey.pem",
     proxy            => 'http://10.99.0.152:9000',
+  }
+
+# Reverse HTTPS Proxy for Nexus OSS on Kubernetes
+  nginx::resource::server { 'nexus_server' :
+    ensure           => present,
+    server_name      => [
+      $::nexus_external_url,
+    ],
+    proxy_set_header => [
+      'Host $host:$server_port',
+      'X-Real-IP $remote_addr',
+      'X-Forwarded-For $proxy_add_x_forwarded_for',
+      'X-Forwarded-Proto $scheme',
+    ],
+    listen_port      => 443,
+    ssl              => true,
+    ssl_cert         => "/etc/letsencrypt/live/${::gitlab_external_url}/fullchain.pem",
+    ssl_key          => "/etc/letsencrypt/live/${::gitlab_external_url}/privkey.pem",
+    proxy            => 'http://10.99.0.155:8081',
+  }
+
+# Reverse HTTPS Proxy for Nexus OSS Docker Registry on Kubernetes
+  nginx::resource::server { 'nexus_registry' :
+    ensure           => present,
+    server_name      => [
+      $::nexus_external_url,
+    ],
+    proxy_set_header => [
+      'Host $host:$server_port',
+      'X-Real-IP $remote_addr',
+      'X-Forwarded-For $proxy_add_x_forwarded_for',
+      'X-Forwarded-Proto $scheme',
+    ],
+    ssl_port         => 5001,
+    ssl              => true,
+    ssl_cert         => "/etc/letsencrypt/live/${::gitlab_external_url}/fullchain.pem",
+    ssl_key          => "/etc/letsencrypt/live/${::gitlab_external_url}/privkey.pem",
+    proxy            => 'http://10.99.0.155:5001',
+  }
+
+# Reverse TCP Proxy for PostgreSQL
+  nginx::resource::upstream {'postgres_upstream':
+    ensure  => present,
+    context => 'stream',
+    members => {
+      '10.99.0.153:5432' => {
+        server => '10.99.0.153',
+        port   => 5432,
+      },
+    },
+  }
+
+  nginx::resource::streamhost {'postgres':
+    ensure      => present,
+    listen_ip   => '10.45.0.11',
+    listen_port => 5432,
+    proxy       => 'postgres_upstream'
   }
 }

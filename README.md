@@ -3,7 +3,7 @@ All of the code to make sure that my homelab can be deployed simply and easily.
 
 This project leverages [Puppet Bolt](https://puppet.com/docs/bolt/latest/bolt.html) to deploy all of the VMs and then provision them.
 
-# What hardware components are necessary for a deployment like this?
+## What hardware components are necessary for a deployment like this?
 
 I am running a single Proxmox 6.2 node for my hypervisor. My hardware specs are:
 
@@ -22,7 +22,7 @@ Hardware:
           Alias: "slowboat"
 ```
 
-# What software will I need for this?
+## What software will I need for this?
 
 I'm assuming that you're going to be running *nix in some form or fashion. My primary personal development rig is running Windows 10 Pro with WSL2 running Ubuntu 20.04. That being said, 100% of this can be done with Mac OS, as my daily work driver is just that with all of the following tooling.
 
@@ -33,25 +33,25 @@ You'll need the following software packages/libraries:
 * [Puppet Bolt](https://puppet.com/docs/bolt/latest/bolt_installing.html)
 * [hiera-eyaml](https://packages.ubuntu.com/search?keywords=hiera-eyaml)
 
-
 Additionally, you'll _want_ to install the following software for various purposes:
 
 * [jq](https://stedolan.github.io/jq/) - Easier JSON parsing
 * [Puppet Agent](https://puppet.com/docs/puppet/latest/install_agents.html) - Lets you test Facter locally.
 
-# What will the network architecture actually look like?
+## What will the network architecture actually look like?
 
 For my environment, I want to make sure that I can safely deploy and redeploy everything I'm doing without having to manually type any commands. Simple(ish) goal.
 
 Additionally, I have previously run my homelab as the home network, which justifiably annoyed my wife when I'd make breaking changes. This time around, I'm running everything double NAT'd because it'll limit the amount of damage I can cause 😉.
 
 In order to manage this, the hypervisor will have two networks:
-- Bridged network with my home network, or 'WAN.'
-- Bridged network that does not leave the hypervisor, or 'LAN.'
+
+* Bridged network with my home network, or 'WAN.'
+* Bridged network that does not leave the hypervisor, or 'LAN.'
 
 Here's a simple diagram of what this should all look like:
 
-```
+```Markdown
 +-----------------+
 |                 |
 |   Cable Modem   |
@@ -100,32 +100,32 @@ All virtual machines on the LAN (10.99.0.0/24 network) have their gateways set t
 
 In order for communications between my development station and the virtual machines on the homelab subnet, I am leveraging the `pmxrouter` as a Proxyjump (or bastion) host. 
 
-# Recommended GenericCloud Images
+## Recommended GenericCloud Images
 
 While you can absolutely create your own [Cloud-Init](https://cloudinit.readthedocs.io/en/latest/) enabled images on your hypervisor, I recommend downloading and using the following Official GenericCloud Image:
 
-- [Ubuntu Bionic 18.04 Image](https://cloud-images.ubuntu.com/bionic/current/bionic-server-cloudimg-amd64.img)
-  - [Installation Instructions can be found here](https://pve.proxmox.com/wiki/Cloud-Init_Support#_preparing_cloud_init_templates)
+* [Ubuntu Bionic 18.04 Image](https://cloud-images.ubuntu.com/bionic/current/bionic-server-cloudimg-amd64.img)
+  * [Installation Instructions can be found here](https://pve.proxmox.com/wiki/Cloud-Init_Support#_preparing_cloud_init_templates)
 
 The reason I recommend using this image is that you can simply:
 
 1. Add your ssh-keys to the Cloud-Init template image
-0. Set your default network settings
-0. Clone the image
-0. Expand the volume
-0. Launch the image
+2. Set your default network settings
+3. Clone the image
+4. Expand the volume
+5. Launch the image
 
 Within ~30s you have a fully functional Linux VM!
 
-# Inventory File
+## Inventory File
 
 The Inventory file includes all of the virtual hosts to provision, and does so by leveraging Proxyjump/Bastion through the `pmxrouter` host. The hosts are grouped in such a way that allows easy reference to any number of services.
 
-# What is Hiera/Hiera-Eyaml and how is it being used?
+## What is Hiera/Hiera-Eyaml and how is it being used?
 
 [Hiera-Eyaml](https://puppet.com/blog/encrypt-your-data-using-hiera-eyaml/) is a quick and safe way to encrypt and store your secret and private information with a self-signed PKCS7 keypair. Once encrypted, it's effectively safe to commit to source control (so long as you never accidentally commit the keypair 😉)! So long as you have the keys in the correct spot on the system that is running the Bolt plan, it will automatically decrypt and use the Hiera values as if they were unencrypted.
 
-# Right Before Deploying Everything
+## Right Before Deploying Everything
 
 Make sure that you've created 10 Virtual Machines, ensuring their system settings are appropriate:
 
@@ -144,7 +144,7 @@ Make sure that you've created 10 Virtual Machines, ensuring their system setting
 
 Once you have verified those settings, make sure that you turn all the machines on and wait 3-5 minutes for them to turn on and provision.
 
-# Time to Deploy the Entire Project
+## Time to Deploy the Entire Project
 
 Provisoning the entire project is as simple as running a few commands:
 
@@ -170,9 +170,11 @@ Provisoning the entire project is as simple as running a few commands:
 ```
 
 ### Why aren't all of the plans in the project on the list above?
+
 Some of them are just for my homelab environment, like `deploy_applications::unifi_controller`, and others should never _**ever**_ be run unless you have an extrordinary need, like `deploy_k8s::nuke_it_all`. 
 
-# Post Deployment Requirements
+## Post Deployment Requirements
+
 Once Kubernetes has been deployed, you'll be able to run a command like this to get the correct Kubernetes config file:
 
 ```bash
@@ -183,7 +185,6 @@ Once Kubernetes has been deployed, you'll be able to run a command like this to 
 ```
 
 Once you have the file locally, you'll need to apply a kubernetes manifest and run one additional command to finish the [MetalLB](https://metallb.universe.tf/installation/) deployment:
-
 
 ```bash
 ➜ kubectl apply \
@@ -196,7 +197,7 @@ Once you have the file locally, you'll need to apply a kubernetes manifest and r
 
 Now, if you run `kubectl get pods --all-namespaces`, you should have a response which looks like this:
 
-```
+```bash
 ➜ kubectl get pods --all-namespaces
 NAMESPACE        NAME                                       READY   STATUS    RESTARTS   AGE
 kube-system      calico-kube-controllers-77d6cbc65f-qfb7s   1/1     Running   1          116m
@@ -221,6 +222,10 @@ metallb-system   speaker-nsv2x                              1/1     Running   0 
 metallb-system   speaker-p8rgw                              1/1     Running   0          94m
 ```
 
-# Questions? Concerns?
+## What now?
+
+Well, go deploy some applications! If you're going to use Nexus, go ahead and [create a private docker registry](https://blog.sonatype.com/using-nexus-3-as-your-repository-part-3-docker-images), [add the auth to your new k8s cluster](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/), maybe [push](https://docs.docker.com/engine/reference/commandline/push/#push-a-new-image-to-a-registry) some images to make sure it's all good, and run a new container using your newly stored image!
+
+## Questions or Concerns?
 
 Please feel free to open an issue if you have any questions or concerns, or email me at [me@danmanners.com](mailto:me@danmanners.com)!

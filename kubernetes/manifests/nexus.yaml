@@ -1,0 +1,87 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: nexus-pv
+spec:
+  capacity:
+    storage: 40Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  nfs:
+    server: 10.99.0.5
+    path: "/mnt/nvmestor/nexus"
+    readOnly: false
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: nexus-pvc
+  labels:
+    app: nexus-oss
+spec:
+  accessModes:
+  - ReadWriteMany
+  resources:
+     requests:
+       storage: 1Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nexus-oss
+spec:
+  selector:
+    matchLabels:
+      run: nexus-oss
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        run: nexus-oss
+    spec:
+      containers:
+      - name: nexus-oss
+        image: sonatype/nexus3:3.24.0
+        ports:
+        - name: web
+          containerPort: 8081
+        - name: registry
+          containerPort: 5001
+        volumeMounts:
+        - name: nexus-data
+          mountPath: /nexus-data
+        env:
+          - name: INSTALL4J_ADD_VM_PARAMS
+            value: "-Xms2g -Xmx2g -XX:MaxDirectMemorySize=3g"
+        resources:
+          limits:
+            cpu: "4"
+          requests:
+            cpu: "1"
+      terminationGracePeriodSeconds: 120
+      volumes:
+      - name: nexus-data
+        persistentVolumeClaim:
+          claimName: nexus-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nexus-oss
+  labels:
+    run: nexus-oss
+spec:
+  loadBalancerIP: 10.99.0.155
+  type: LoadBalancer
+  ports:
+  - name: web
+    port: 8081
+    protocol: TCP
+  - name: registry
+    port: 5001
+    protocol: TCP
+  selector:
+    run: nexus-oss
+
