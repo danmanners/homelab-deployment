@@ -3,7 +3,8 @@
 # This is entirely destructive and will destroy any and all work you have.
 # Once this has been completed, make sure you reboot all of the hosts.
 plan deploy_k8s::nuke_it_all (
-  Boolean $confirm
+  Boolean           $confirm,
+  Optional[Boolean] $remove_packages,
 ) {
 # Only if confirm=true should this nuke the cluster and all nodes.
   if $confirm {
@@ -22,6 +23,14 @@ plan deploy_k8s::nuke_it_all (
         force   => true,
         recurse => true,
         require => Service['etcd'],
+      }
+
+      # If remove_packages is True, remove all the Kube/Docker packages.
+      if $remove_packages {
+        $kube_packages = [ 'kubelet', 'kubectl', 'kubeadm', 'etcd', 'docker']
+        package {$kube_packages:
+          ensure => purged,
+        }
       }
     }
   }

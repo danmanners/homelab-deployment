@@ -83,7 +83,20 @@ class deploy_router::nginx_config {
 
 ### EVERYTHING BELOW THIS LINE SHOULD BE FOR APPLICATIONS ONLY.
 ### THIS WILL BE BROKEN OUT INTO SEPARATE FILES LATER.
-# Reverse HTTPS Proxy for Jenkins on Kubernetes
+# Reverse HTTP Proxy for PiHole
+  nginx::resource::server { 'pihole_server' :
+    ensure           => present,
+    server_name      => [
+      $::pihole_external_url,
+    ],
+    proxy_set_header => [
+      'Host $host:$server_port',
+      'X-Real-IP $remote_addr',
+    ],
+    listen_port      => 80,
+    proxy            => 'http://10.99.0.2',
+  }
+
   nginx::resource::server { 'jenkins_server' :
     ensure           => present,
     server_name      => [

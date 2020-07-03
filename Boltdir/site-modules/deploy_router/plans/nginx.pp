@@ -19,6 +19,7 @@ plan deploy_router::nginx () {
   apply('bastion', _run_as => root) {
 
     # Define the relevant variables.
+    $pihole_external_url    = lookup('common::pihole::pihole_external_url')
     $sonarqube_external_url = lookup('sonarqube::sonarqube_external_url')
     $nexus_external_url     = lookup('nexus::nexus_external_url')
     $jenkins_external_url   = lookup('jenkins::jenkins_external_url')

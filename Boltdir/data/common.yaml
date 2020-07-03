@@ -25,3 +25,22 @@ common::sshkeys: >
   C7FV54P/bxO4JPOfy0n7nHDiy2OIWD00xT++rqGdQaINx+15FLuPHFFS
   IKp36e2HtctyZ4rG0TrYPzdAfbe1t8NCrvXTiLHpA7UU3j9LmVwDE7TB
   gHWksW6ZCvXj17CgRRF67nLgw=]
+# Pi-Hole DNS Setup
+common::pihole::pihole_external_url: "pihole.goodmannershosting.com"
+common::pihole::webpassword: >
+  ENC[PKCS7,MIIBuQYJKoZIhvcNAQcDoIIBqjCCAaYCAQAxggEhMIIBHQ
+  IBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEARxK3UfjWeKonFpNegZ
+  qJZFhmrsu/0veMz09kzIOuJXK3vHia+Xrs8+j2V8PxRo/vZBLN1tQlUM
+  7mEpOc3vupJwKeN/atj1Ja2EoMnmMSLDcE4dfi7iEVoB+t2BETucKbEj
+  v/vyhTXVg//Yes9yCFOM36mIZA+zXdAz9PJwk6xJqDTWMgeiOoKIooV0
+  CBgoh9gkVBBJmQpCAb0sVUbVB3JhAaceUvE1DmQLOVBt3HgA+nt9OdFS
+  lWMoQnfupN33eu6+tgcdvFQ782vVcYmxiMcWD0gXw9dEcb6fg1tmO9lc
+  vFQDtrbrhr/roMQTcfywLo/aJsYCL1wnY+46fRANn6yTB8BgkqhkiG9w
+  0BBwEwHQYJYIZIAWUDBAEqBBB5oLEkp043zfWG8vxNNAhLgFDqHG5vwX
+  IuN5YFpgTuxKDcRiyD2gJR+cgXPPoAwYDOCY1upIYR2V1+fOd1bPsf0c
+  VKUIFFAdVEiU7qcdBZ/FWJ7L+FIBuNyeM08XoQ0oVuvg==]
+# Generate the password with:
+# 'echo -n "PasswordHere" | sha256sum | awk '{printf "%s",$1}' | sha256sum | awk '{printf "%s",$1}'
+common::pihole::ipv4_addr: "10.99.0.2/24"
+common::pihole::upstream_dns_1: "10.45.0.1"
+common::pihole::upstream_dns_2: "8.8.8.8"
