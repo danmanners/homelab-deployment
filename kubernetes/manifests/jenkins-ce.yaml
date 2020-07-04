@@ -43,7 +43,7 @@ spec:
     spec:
       containers:
       - name: jenkins-ce
-        image: jenkins/jenkins:2.242-centos7
+        image: jenkins/jenkins:2.243-centos7
         ports:
         - containerPort: 8080
           name: web
