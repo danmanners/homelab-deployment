@@ -405,11 +405,11 @@ metadata:
 data:
   config: |
     peers:
-    - peer-address: 10.99.0.1
-      peer-asn: 64512
-      my-asn: 64513
+    - peer-address: <%= $peer_gateway %>
+      peer-asn: <%= $peer_asn %>
+      my-asn: <%= $my_asn %>
     address-pools:
     - name: default
       protocol: bgp 
       addresses:
-      - 10.99.0.150-10.99.0.250
+      - <%= $available_ip_pool %>

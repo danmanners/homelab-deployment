@@ -3,6 +3,9 @@ Boltdir/modules
 Boltdir/.resource_types
 .rerun.json
 
+# Directory Ignores
+.kube
+
 # Make sure you never submit keys by accident.
 *.pkcs7
 *.pem

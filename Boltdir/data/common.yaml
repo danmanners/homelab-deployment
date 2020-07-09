@@ -44,3 +44,9 @@ common::pihole::webpassword: >
 common::pihole::ipv4_addr: "10.99.0.2/24"
 common::pihole::upstream_dns_1: "10.45.0.1"
 common::pihole::upstream_dns_2: "8.8.8.8"
+# Directory where kubectl is located; do not include the trailing '/'
+common::kubectl_directory: "/usr/local/bin"
+common::metallb::peer_gateway: "10.99.0.1"
+common::metallb::my_asn: "64513"
+common::metallb::peer_asn: "64512"
+common::metallb::ip_pool: "10.99.0.150-10.99.0.250"
