@@ -1,14 +1,17 @@
 # Initializes the Kubernetes master node.
-plan deploy_k8s::init_master () {
-  apply_prep(['k8s-primary'])
+plan deploy_k8s::init_master (
+  Optional[String] $mode = ''
+) {
+  apply_prep(["${mode}k8s-primary"])
 
-  apply('k8s-primary', _run_as => root) {
+  apply("${mode}k8s-primary", _run_as => root) {
   # Ensures the conntrack count value is set to 0.  
     sysctl { 'net.netfilter.nf_conntrack_count':
       ensure  => present,
       value   => '0',
       comment => 'Required for Kubernetes',
     }
+
     # SonarQube and Elasticsearch Requirements.
     sysctl {'vm.max_map_count':
       ensure  => present,

@@ -84,18 +84,18 @@ class deploy_router::nginx_config {
 ### EVERYTHING BELOW THIS LINE SHOULD BE FOR APPLICATIONS ONLY.
 ### THIS WILL BE BROKEN OUT INTO SEPARATE FILES LATER.
 # Reverse HTTP Proxy for PiHole
-  nginx::resource::server { 'pihole_server' :
-    ensure           => present,
-    server_name      => [
-      $::pihole_external_url,
-    ],
-    proxy_set_header => [
-      'Host $host:$server_port',
-      'X-Real-IP $remote_addr',
-    ],
-    listen_port      => 80,
-    proxy            => 'http://10.99.0.2',
-  }
+  # nginx::resource::server { 'pihole_server' :
+  #   ensure           => present,
+  #   server_name      => [
+  #     $::pihole_external_url,
+  #   ],
+  #   proxy_set_header => [
+  #     'Host $host:$server_port',
+  #     'X-Real-IP $remote_addr',
+  #   ],
+  #   listen_port      => 80,
+  #   proxy            => 'http://10.99.0.2',
+  # }
 
   nginx::resource::server { 'jenkins_server' :
     ensure           => present,
@@ -134,6 +134,25 @@ class deploy_router::nginx_config {
     proxy            => 'http://10.99.0.152:9000',
   }
 
+# Reverse HTTPS Proxy for Sammy Ross on Wordpress
+  nginx::resource::server { 'sam_server' :
+    ensure           => present,
+    server_name      => [
+      $::sam_external_url,
+    ],
+    proxy_set_header => [
+      'Host $host:$server_port',
+      'X-Real-IP $remote_addr',
+      'X-Forwarded-For $proxy_add_x_forwarded_for',
+      'X-Forwarded-Proto $scheme',
+    ],
+    listen_port      => 443,
+    ssl              => true,
+    ssl_cert         => "/etc/letsencrypt/live/${::gitlab_external_url}/fullchain.pem",
+    ssl_key          => "/etc/letsencrypt/live/${::gitlab_external_url}/privkey.pem",
+    proxy            => 'http://10.45.0.134:8000',
+  }
+
 # Reverse HTTPS Proxy for Nexus OSS on Kubernetes
   nginx::resource::server { 'nexus_server' :
     ensure           => present,
@@ -165,7 +184,7 @@ class deploy_router::nginx_config {
       'X-Forwarded-For $proxy_add_x_forwarded_for',
       'X-Forwarded-Proto $scheme',
     ],
-    ssl_port         => 5001,
+    listen_port      => 5001,
     ssl              => true,
     ssl_cert         => "/etc/letsencrypt/live/${::gitlab_external_url}/fullchain.pem",
     ssl_key          => "/etc/letsencrypt/live/${::gitlab_external_url}/privkey.pem",

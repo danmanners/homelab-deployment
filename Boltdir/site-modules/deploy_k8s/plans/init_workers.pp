@@ -1,8 +1,10 @@
 # Initializes the Kubernetes worker nodes.
-plan deploy_k8s::init_workers () {
-  apply_prep(['k8s-nodes'])
+plan deploy_k8s::init_workers (
+  Optional[String] $mode = ''
+) {
+  apply_prep(["${mode}k8s-nodes"])
 
-  apply('k8s-nodes', _run_as => root) {
+  apply("${mode}k8s-nodes", _run_as => root) {
 
     $vm_max_map_count = 262144
     $fs_file_max = 65536

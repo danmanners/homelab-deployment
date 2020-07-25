@@ -53,6 +53,18 @@ groups:
       ssh:
         proxyjump: ubuntu@pmxrouter.danmanners.io
 
+  - name: dev
+    groups:
+      - name: devk8s-primary
+        targets:
+          - 10.45.0.241
+      
+      - name: devk8s-nodes
+        targets:
+          - 10.45.0.242
+          - 10.45.0.243
+          - 10.45.0.244
+
 # General Config
 config:
   ssh:

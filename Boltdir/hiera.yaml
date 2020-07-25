@@ -26,6 +26,9 @@ hierarchy:
   - name: "sonarqube"
     path: "sonarqube.yaml"
 
+  - name: "friends"
+    path: "friends.yaml"
+
   - name: "sysctl_config"
     path: "easy_sysctl.yaml"
 
@@ -37,9 +40,3 @@ hierarchy:
     path: "k8s/Ubuntu.yaml"
   - name: "k8s_primary"
     path: "k8s/k8s-primary.yaml"
-  - name: "k8s_worker1"
-    path: "k8s/k8s-worker1.yaml"
-  - name: "k8s_worker2"
-    path: "k8s/k8s-worker2.yaml"
-  - name: "k8s_worker3"
-    path: "k8s/k8s-worker3.yaml"
