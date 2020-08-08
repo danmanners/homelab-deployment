@@ -4,7 +4,8 @@ Boltdir/.resource_types
 .rerun.json
 
 # Directory Ignores
-.kube   
+.kube
+devBoltdirs
 
 # Make sure you never submit keys by accident.
 *.pkcs7
@@ -18,3 +19,8 @@ Boltdir/.resource_types
 *.deb
 *.pkg
 *.rpm
+
+# Python Bits
+.env
+*.pyc
+__pycache__

@@ -25,3 +25,6 @@ mod 'puppet/dhcp', '4.0.0'
 mod 'herculesteam/augeasproviders_sysctl', '2.5.0'
 mod 'herculesteam/augeasproviders_core', '2.6.0'
 mod 'camptocamp/kmod', '2.5.0'
+
+# Hand-Crafted Modules for this project!
+mod 'danmanners/proxmox_api', '0.1.3'
