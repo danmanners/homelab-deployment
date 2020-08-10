@@ -176,7 +176,7 @@ class deploy_router::nginx_config {
   nginx::resource::server { 'nexus_registry' :
     ensure           => present,
     server_name      => [
-      $::nexus_external_url,
+      $::nexus_docker_external_url,
     ],
     proxy_set_header => [
       'Host $host:$server_port',

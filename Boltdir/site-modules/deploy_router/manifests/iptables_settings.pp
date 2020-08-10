@@ -53,4 +53,14 @@ class deploy_router::iptables_settings {
       jump         => 'MASQUERADE',
       random_fully => true,
     }
+
+# Emergency Inbound Masquerading
+    firewall {'101 Masquerade':
+      table        => 'nat',
+      chain        => 'POSTROUTING',
+      proto        => 'all',
+      outiface     => 'eth1',
+      jump         => 'MASQUERADE',
+      random_fully => true,
+    }
 }

@@ -43,7 +43,7 @@ spec:
     spec:
       containers:
       - name: nexus-oss
-        image: sonatype/nexus3:3.24.0
+        image: sonatype/nexus3:3.25.1
         ports:
         - name: web
           containerPort: 8081

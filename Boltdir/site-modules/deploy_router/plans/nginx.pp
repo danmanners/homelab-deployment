@@ -19,14 +19,15 @@ plan deploy_router::nginx () {
   apply('bastion', _run_as => root) {
 
     # Define the relevant variables.
-    $pihole_external_url    = lookup('common::pihole::pihole_external_url')
-    $sonarqube_external_url = lookup('sonarqube::sonarqube_external_url')
-    $nexus_external_url     = lookup('nexus::nexus_external_url')
-    $sam_external_url       = lookup('friends::sam::domain')
-    $jenkins_external_url   = lookup('jenkins::jenkins_external_url')
-    $gitlab_external_url    = lookup('gitlab::gitlab_external_url')
-    $gitlab_registry_port   = lookup('gitlab::gitlab_registry_port')
-    $gitlab_ssh_port        = lookup('gitlab::gitlab_ssh_port')
+    $pihole_external_url            = lookup('common::pihole::pihole_external_url')
+    $sonarqube_external_url         = lookup('sonarqube::sonarqube_external_url')
+    $nexus_docker_external_url      = lookup('nexus::nexus_docker_external_url')
+    $nexus_external_url             = lookup('nexus::nexus_external_url')
+    $sam_external_url               = lookup('friends::sam::domain')
+    $jenkins_external_url           = lookup('jenkins::jenkins_external_url')
+    $gitlab_external_url            = lookup('gitlab::gitlab_external_url')
+    $gitlab_registry_port           = lookup('gitlab::gitlab_registry_port')
+    $gitlab_ssh_port                = lookup('gitlab::gitlab_ssh_port')
 
     # Makes sure to remove the default.conf file.
     file { '/etc/nginx/conf.d/default.conf':
@@ -47,11 +48,12 @@ plan deploy_router::nginx () {
   apply('bastion', _run_as => root) {
 
     # Define the relevant variables.
-    $nexus_external_url     = lookup('nexus::nexus_external_url')
-    $gitlab_external_url    = lookup('gitlab::gitlab_external_url')
-    $jenkins_external_url   = lookup('jenkins::jenkins_external_url')
-    $sonarqube_external_url = lookup('sonarqube::sonarqube_external_url')
-    $sam_external_url       = lookup('friends::sam::domain')
+    $nexus_external_url         = lookup('nexus::nexus_external_url')
+    $nexus_docker_external_url  = lookup('nexus::nexus_docker_external_url')
+    $gitlab_external_url        = lookup('gitlab::gitlab_external_url')
+    $jenkins_external_url       = lookup('jenkins::jenkins_external_url')
+    $sonarqube_external_url     = lookup('sonarqube::sonarqube_external_url')
+    $sam_external_url           = lookup('friends::sam::domain')
 
     # Ensure that the NGINX service is up and operational.
     service {'nginx':
@@ -63,7 +65,7 @@ plan deploy_router::nginx () {
     exec { 'certwork' :
       command => "/usr/bin/certbot certonly --standalone \
         --preferred-challenges http \
-        -d ${gitlab_external_url},${jenkins_external_url},${sonarqube_external_url},${nexus_external_url},${sam_external_url} \
+        -d ${gitlab_external_url},${jenkins_external_url},${sonarqube_external_url},${nexus_external_url},${nexus_docker_external_url},${sam_external_url} \
         --http-01-address ${facts['networking']['interfaces']['eth0']['ip']} \
         -n --expand",
       notify  => Service['nginx']

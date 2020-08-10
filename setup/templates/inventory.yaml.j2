@@ -1,0 +1,26 @@
+---
+groups:
+# Applications & Services
+  - name: application_servers
+    groups:
+      # Kubernetes Primary Nodes
+      - name: k8s-primary
+        targets: 
+          - {% kubePrimary %}
+
+      - name: k8s-nodes
+        targets:
+{%- for i in kubeNodes %}
+          - {{ i }}
+{%- endfor %}
+
+# General Config
+config:
+  ssh:
+    user: {{ user }}
+    host-key-check: false
+{%- if privateKey is not None %}   
+    private-key: {{ privateKeyLocation }}
+{%- else %}
+    private-key: ~/.ssh/id_rsa
+{%- endif %}

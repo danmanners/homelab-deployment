@@ -1,2 +1,3 @@
 ---
 nexus::nexus_external_url: nexus.goodmannershosting.com
+nexus::nexus_docker_external_url: nexus-docker.goodmannershosting.com
