@@ -6,7 +6,7 @@ groups:
       # Kubernetes Primary Nodes
       - name: k8s-primary
         targets: 
-          - {% kubePrimary %}
+          - {{ kubePrimary }}
 
       - name: k8s-nodes
         targets:
@@ -17,10 +17,6 @@ groups:
 # General Config
 config:
   ssh:
-    user: {{ user }}
+    user: {{ sshUsername }}
     host-key-check: false
-{%- if privateKey is not None %}   
-    private-key: {{ privateKeyLocation }}
-{%- else %}
-    private-key: ~/.ssh/id_rsa
-{%- endif %}
+    private-key: ~/.ssh/{{ sshKeySelection }}

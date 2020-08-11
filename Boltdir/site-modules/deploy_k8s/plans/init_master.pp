@@ -14,14 +14,16 @@ plan deploy_k8s::init_master (
 
     # SonarQube and Elasticsearch Requirements.
     sysctl {'vm.max_map_count':
-      ensure  => present,
-      value   => $vm_max_map_count,
-      comment => 'Required for various Kubernetes services',
+      ensure     => present,
+      value      => $vm_max_map_count,
+      comment    => 'Required for various Kubernetes services',
+      persistent => true
     }
     sysctl {'fs.file-max':
-      ensure  => present,
-      value   => $fs_file_max,
-      comment => 'Required for various Kubernetes services',
+      ensure     => present,
+      value      => $fs_file_max,
+      comment    => 'Required for various Kubernetes services',
+      persistent => true
     }
 
     # Ensure the sysctl settings are persistent.

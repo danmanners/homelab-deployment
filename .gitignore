@@ -24,3 +24,6 @@ devBoltdirs
 .env
 *.pyc
 __pycache__
+
+# Development Information
+devBoltdir
