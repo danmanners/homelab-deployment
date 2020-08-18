@@ -2,6 +2,11 @@ import yaml
 import os, sys, pathlib, ipaddress
 from jinja2 import Environment, FileSystemLoader, Template
 
+from functions.binary_functions import resource_path
+
+# Definitions
+cwd = os.getcwd()
+
 # Creates the K8s Environment Files for Hiera
 def createK8sEnvFile(
     os,
@@ -39,14 +44,49 @@ def createK8sEnvFile(
 
 # Ask and require answers for all of Kubernetes
 def k8sQuestion(directory):
+
+    # Couple of Definitions to start with
+    ktDir       = cwd + '/' + directory
+    ktEnvFile   = ktDir + '/env'
+
+    # Check if the 'env' file already exists. This WILL be destructive if things already exist!!
+    checkEnvFile = pathlib.Path(ktEnvFile)
+    if checkEnvFile.exists():
+
+        while True:
+            ans = input("Files already exist; continue? This may be destructive! (y/n) : ")
+            if ans not in ['y', 'Y', 'n', 'N']:
+                print('Please enter y or n.')
+                continue
+            if ans == 'y' or ans == 'Y':
+                print("Continuing")
+                break
+            if ans == 'n' or ans == 'N':
+                print("Stopping.")
+                sys.exit(0)
+
     print("===== KUBERNETES - START =====")
-    ktDir                           = os.getcwd() + '/' + directory
-    ktEnvFile                       = ktDir + '/env'
     ktOS                            = str(input("Which OS are you deploying to (Default: Ubuntu) : ") or "Ubuntu")
-    ktVERSION                       = str(input("Which Version of K8s are you deploying (Default: 1.17.6) : ") or "1.17.6")
-    ktCONTAINER_RUNTIME             = str(input("Which Container Runtime are you using (Default: docker) : ") or "docker")
-    ktCNI_PROVIDER                  = str(input("Which CNI Provider do you want to deploy (Default: calico) : ") or "calico")
-    ktEtcdClusterHostname           = str(input("Enter the hostname for your primary K8s node (Default: k8s-primary-1 : ") or "k8s-primary-1")
+    ktVERSION                       = str(
+        input("Which Version of K8s are you deploying (Default: 1.17.6) : ")
+        or
+        "1.17.6"
+    )
+    ktCONTAINER_RUNTIME             = str(
+        input("Which Container Runtime are you using (Default: docker) : ")
+        or
+        "docker"
+    )
+    ktCNI_PROVIDER                  = str(
+        input("Which CNI Provider do you want to deploy (Default: calico) : ")
+        or
+        "calico"
+    )
+    ktEtcdClusterHostname           = str(
+        input("Enter the hostname for your primary K8s node (Default: k8s-primary-1 : ")
+        or
+        "k8s-primary-1"
+    )
     while True:
         ktEtcdClusterIP             = str(input("Enter the IP address for your primary K8s node : "))
         if not ktEtcdClusterIP:
@@ -66,25 +106,11 @@ def k8sQuestion(directory):
     ktKUBE_API_ADVERTISE_ADDRESS    = str('%{::ipaddress_eth1}')
     ktINSTALL_DASHBOARD             = str(input("Do you want to install the K8s Dashboard (Default: false) : ") or "false")
 
-    file_loader = FileSystemLoader("{}/setup/templates".format(os.getcwd()))
+    
+    file_loader = FileSystemLoader("{}/setup/templates".format(resource_path(cwd)))
+    # file_loader = FileSystemLoader("{}/setup/templates".format(cwd))
     k8s_env = Environment(loader=file_loader)
     k8s_template = k8s_env.get_template('env.j2')
-
-    # Check if the 'env' file already exists. This WILL be destructive if things already exist!!
-    checkEnvFile = pathlib.Path(ktEnvFile)
-    if checkEnvFile.exists():
-
-        while True:
-            ans = input("The file already exists; continue? This may be destructive! (y/n) : ")
-            if ans not in ['y', 'Y', 'n', 'N']:
-                print('Please enter y or n.')
-                continue
-            if ans == 'y' or ans == 'Y':
-                print("Continuing")
-                break
-            if ans == 'n' or ans == 'N':
-                print("Stopping.")
-                sys.exit(0)
 
     createK8sEnvFile(os=ktOS, version=ktVERSION, container_runtime=ktCONTAINER_RUNTIME,
         cni=ktCNI_PROVIDER, etcd_initial_cluster=ktETCD_INITIAL_CLUSTER, etcd_ip=ktETCD_IP,

@@ -1,19 +1,15 @@
 #!/usr/bin/python
-# TODO Build data files:
-# TODO   - common.yaml
-# TODO   - inventory.yaml
-#      }
 # Internal Libraries
 import os
+import sys
+import yaml
 import argparse
 from subprocess import DEVNULL, STDOUT, check_call
 
 # External Libraries
-import yaml
-
 from questions.k8s import k8sQuestion, buildKubePrimaryFile
 from questions.inventory import inventoryQuestions
-from questions.files import createK8sOutputFile
+from questions.files import createK8sOutputFile, createBoltFile
 
 # Sets up args
 parser = argparse.ArgumentParser(description="Sets up your homelab environment with Bolt")
@@ -29,6 +25,7 @@ args = parser.parse_args()
 
 # Definitions
 directory = "{}/data".format(args.boltdir)
+puppetDir = os.getcwd() + '/' + args.boltdir
 inventoryFileName = "{}/inventory.yaml".format(args.boltdir)
 
 # Create the directory to do everything in.
@@ -58,3 +55,7 @@ listOfThings, listOfCerts, k8sFile = buildKubePrimaryFile(ktDir, ktOS, ktCNI_PRO
 
 # Create the k8s Output File
 createK8sOutputFile(listOfThings, listOfCerts, k8sFile, inventoryFileName, inventoryFile)
+
+# Create Bolt Files
+createBoltFile('bolt-project.yaml', '{}/Bolt.yaml'.format(puppetDir))
+createBoltFile('Puppetfile', '{}/Puppetfile'.format(puppetDir))

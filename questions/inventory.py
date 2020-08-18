@@ -34,7 +34,7 @@ def inventoryQuestions(kubePrimary):
             num = 1
             for i in sshKeys:
                 print("{}) {}".format(num,i))
-                num++1
+                num += 1
             
             sshKeySelection = str(input("Type the name of the SSH key above to be used to SSH to K8s Nodes, or press enter to use '{}': ".format(sshKeys[0])))
             if not sshKeySelection:
