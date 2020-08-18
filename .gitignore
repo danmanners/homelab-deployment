@@ -27,3 +27,8 @@ __pycache__
 
 # Development Information
 devBoltdir
+
+# Build Files
+build/
+setup.spec
+dist

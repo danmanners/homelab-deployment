@@ -1,8 +1,0 @@
-OS=Ubuntu
-VERSION=1.17.6
-CONTAINER_RUNTIME=docker
-CNI_PROVIDER=calico
-ETCD_INITIAL_CLUSTER=k8s-primary-1:1.1.1.1
-ETCD_IP=%{::ipaddress_eth1}
-KUBE_API_ADVERTISE_ADDRESS=%{::ipaddress_eth1}
-INSTALL_DASHBOARD=false

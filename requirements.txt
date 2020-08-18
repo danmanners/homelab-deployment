@@ -1,0 +1,15 @@
+altgraph==0.17
+astroid==2.4.2
+isort==4.3.21
+Jinja2==2.11.2
+lazy-object-proxy==1.4.3
+MarkupSafe==1.1.1
+mccabe==0.6.1
+pkg-resources==0.0.0
+pyinstaller==4.0
+pyinstaller-hooks-contrib==2020.7
+pylint==2.5.3
+PyYAML==5.3.1
+six==1.15.0
+toml==0.10.1
+wrapt==1.12.1

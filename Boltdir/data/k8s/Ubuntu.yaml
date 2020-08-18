@@ -13,7 +13,7 @@ kubernetes::cgroup_driver: systemd
 kubernetes::docker_version: "5:19.03.11~3-0~ubuntu-%{os.distro.codename}"
 
 kubernetes::kubernetes_apt_location: https://packages.cloud.google.com/apt/
-kubernetes::kubernetes_apt_release: kubernetes-%{os.distro.codename}
+kubernetes::kubernetes_apt_release: kubernetes-xenial
 
 kubernetes::cni_network_provider: https://docs.projectcalico.org/manifests/calico.yaml
 kubernetes::cni_pod_cidr: 10.32.0.0/12
@@ -23,7 +23,7 @@ kubernetes::etcd_peers:
   - 10.99.0.20
 kubernetes::etcd_ip: "%{networking.ip}"
 kubernetes::kube_api_advertise_address: "%{networking.ip}"
-kubernetes::api_server_count: 1
+kubernetes::api_server_count: 4
 
 # IF THIS IS EXPOSED TO THE OPEN WEB, MAKE SURE TO SECURE IT.
 kubernetes::apiserver_cert_extra_sans: ["10.45.0.11", "k8s.danmanners.io"]
